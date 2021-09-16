@@ -7,11 +7,18 @@ namespace Guess_a_number
 {
     class Program
     {
-        static void SaveHighscore(int tal)
+        static void ShowHighscore()
         {
-            using (StreamWriter write = new StreamWriter(@"C:\Users\emil41m5\source\repos\EX20StreamReader\Highscore.txt"))
+            using (StreamReader read = new StreamReader(@"C:\Users\emil41m5\source\repos\EX20StreamReader\Highscore.txt"))
             {
-                write.WriteLine(tal);
+                Console.WriteLine(read.ReadToEnd());
+            }
+        }
+        static void SaveHighscore(int tal, string forNavn)
+        {
+            using (StreamWriter write = new StreamWriter(@"C:\Users\emil41m5\source\repos\EX20StreamReader\Highscore.txt", true))
+            {
+                write.WriteLine(tal + " " + forNavn);
             }
         }
         static void Main(string[] args)
@@ -39,7 +46,8 @@ namespace Guess_a_number
 
             string navn = Console.ReadLine();
 
-            SaveHighscore(count);
+            SaveHighscore(count, navn);
+            ShowHighscore();
         }
     }
 }

@@ -9,16 +9,26 @@ namespace Guess_a_number
     {
         static void ShowHighscore()
         {
+            List<string> highscoreList = new List<string>();
+
             using (StreamReader read = new StreamReader(@"C:\Users\emil41m5\source\repos\EX20StreamReader\Highscore.txt"))
             {
-                Console.WriteLine(read.ReadToEnd());
+                while (!read.EndOfStream)
+                {
+                    highscoreList.Add(read.ReadLine());
+                }
+            }
+            highscoreList = highscoreList.OrderBy(s => int.Parse(s.Split(':')[0])).ToList();
+            foreach (var item in highscoreList)
+            {
+                Console.WriteLine(item);
             }
         }
         static void SaveHighscore(int tal, string forNavn)
         {
             using (StreamWriter write = new StreamWriter(@"C:\Users\emil41m5\source\repos\EX20StreamReader\Highscore.txt", true))
             {
-                write.WriteLine(tal + " " + forNavn);
+                write.WriteLine(tal + ": " + forNavn);
             }
         }
         static void Main(string[] args)
@@ -34,9 +44,14 @@ namespace Guess_a_number
             int b = int.Parse(Console.ReadLine());
             int count = 1;
 
-            while ( b != a)
+            while (b != a)
             {
+                if (b > a)
+                    Console.WriteLine("Det er for højt");
+                else
+                    Console.WriteLine("Det er for lavt");
                 Console.WriteLine("Gæt igen");
+                Console.WriteLine("");
                 b = int.Parse(Console.ReadLine());
                 count++;
             }
@@ -45,6 +60,7 @@ namespace Guess_a_number
             Console.Write("Indtast dit navn: ");
 
             string navn = Console.ReadLine();
+            Console.WriteLine("");
 
             SaveHighscore(count, navn);
             ShowHighscore();
